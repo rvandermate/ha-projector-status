@@ -69,33 +69,30 @@ while true; do
         error=`get_error`
     done
 
-    echo Status: $status
-    echo Error: $error
+    curl -X POST -H "x-ha-access: $ha_pwd" \
+        -H "Content-Type: application/json" \
+        -d '{"state": "'"$status"'", "attributes": {"friendly_name": "Projector State", "icon": "mdi:projector"}}' \
+        $ha_base_url.projector_state
 
-    # curl -X POST -H "x-ha-access: $ha_pwd" \
-    #     -H "Content-Type: application/json" \
-    #     -d '{"state": "'"$status"'", "attributes": {"friendly_name": "Projector State", "icon": "mdi:projector"}}' \
-    #     $ha_base_url.projector_state
+    curl -X POST -H "x-ha-access: $ha_pwd" \
+        -H "Content-Type: application/json" \
+        -d '{"state": "'"$error"'", "attributes": {"friendly_name": "Projector Error", "icon": "mdi:alert-circle"}}' \
+        $ha_base_url.projector_error
 
-    # curl -X POST -H "x-ha-access: $ha_pwd" \
-    #     -H "Content-Type: application/json" \
-    #     -d '{"state": "'"$error"'", "attributes": {"friendly_name": "Projector Error", "icon": "mdi:alert-circle"}}' \
-    #     $ha_base_url.projector_error
+    if [ "$status" == "Standby" ]; then
+        sleep 30
+        continue;
+    fi
 
-    # if [ "$status" == "Standby" ]; then
-    #     sleep 30
-    #     continue;
-    # fi
+    lamp_timer=`get_lamp_timer`
+    if [ "$lamp_timer" != "0" ]; then
+        echo Lamp Timer: $lamp_timer Hours
 
-    # lamp_timer=`get_lamp_timer`
-    # if [ "$lamp_timer" != "0" ]; then
-    #     echo Lamp Timer: $lamp_timer Hours
-
-    #     curl -X POST -H "x-ha-access: $ha_pwd" \
-    #         -H "Content-Type: application/json" \
-    #         -d '{"state": "'"$lamp_timer"'", "attributes": {"unit_of_measurement": "Hours", "friendly_name": "Projector Lamp Timer", "icon": "mdi:lightbulb-on"}}' \
-    #         $ha_base_url.projector_lamp_timer
-    # fi
+        curl -X POST -H "x-ha-access: $ha_pwd" \
+            -H "Content-Type: application/json" \
+            -d '{"state": "'"$lamp_timer"'", "attributes": {"unit_of_measurement": "Hours", "friendly_name": "Projector Lamp Timer", "icon": "mdi:lightbulb-on"}}' \
+            $ha_base_url.projector_lamp_timer
+    fi
 
     sleep 5
 done
