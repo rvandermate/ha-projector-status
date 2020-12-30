@@ -2,7 +2,7 @@
 This collection of scripts allows for hardware (a RaspberryPi, for example) connected to a projector to push the projector's status to HomeAssistant.
 
 A sample hardware configuration would be a RaspberryPi with a usb->serial adapter connected to the RS232 port of a projector.
-The user would then clone this repo, create a configuration based on [the sample config](config/sample.json), replacing the necesary values, and running [install.sh](install.sh) (passing the created configuration file as an argument).
+The user would then clone this repo, create a configuration based on [the sample config](config/sample.json), replacing the necessary values, and running [install.sh](install.sh) (passing the created configuration file as an argument).
 
 The resulting card will be created in HomeAssistant:
 
