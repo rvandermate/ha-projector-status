@@ -1,4 +1,4 @@
-#! /usr/bin/env -S bash -eu
+#! /bin/bash -eu
 
 exit_with_error() {
     >&2 echo "$1"

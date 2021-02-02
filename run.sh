@@ -1,4 +1,4 @@
-#! /usr/bin/env -S bash -eu
+#! /bin/bash -eu
 
 exit_with_error() {
     >&2 echo "$1"
@@ -49,7 +49,6 @@ get_parameter() {
 projector=`get_parameter '.projector'`
 port=`get_parameter '.port'`
 ha_pwd=`get_parameter '.ha_pwd'`
-ha_pwd=`get_parameter '.ha_pwd'`
 ha_base_url=`get_parameter '.ha_base_url'`
 
 if [ -z "`valid_projectors | grep $projector`" ]; then
@@ -86,8 +85,6 @@ while true; do
 
     lamp_timer=`get_lamp_timer`
     if [ "$lamp_timer" != "0" ]; then
-        echo Lamp Timer: $lamp_timer Hours
-
         curl -X POST -H "x-ha-access: $ha_pwd" \
             -H "Content-Type: application/json" \
             -d '{"state": "'"$lamp_timer"'", "attributes": {"unit_of_measurement": "Hours", "friendly_name": "Projector Lamp Timer", "icon": "mdi:lightbulb-on"}}' \
