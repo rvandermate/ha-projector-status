@@ -1,4 +1,4 @@
-#! /usr/bin/env -S bash -eu
+#! /bin/bash -eu
 
 port=$1
 
