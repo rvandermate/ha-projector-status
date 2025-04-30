@@ -23,6 +23,7 @@ mkdir -p $dir
 cp -r projectors $dir
 cp $1 $dir/config.json
 cp run.sh $dir
+systemctl stop ha-projector-status || true
 cp systemd/ha-projector-status.service /etc/systemd/system
 systemctl enable ha-projector-status
 systemctl start ha-projector-status

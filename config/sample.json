@@ -1,6 +1,6 @@
 {
     "port": "/dev/ttyUSB0",
     "projector": "sony (or any valid projector from the projectors directory)",
-    "ha_pwd": "sweet_password_here",
+    "api_token": "api token from home assitant",
     "ha_base_url": "https://my.homeassistant.url.here/api/states/sensor"
 }

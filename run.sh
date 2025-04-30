@@ -48,7 +48,7 @@ get_parameter() {
 
 projector=`get_parameter '.projector'`
 port=`get_parameter '.port'`
-ha_pwd=`get_parameter '.ha_pwd'`
+api_token=`get_parameter '.api_token'`
 ha_base_url=`get_parameter '.ha_base_url'`
 
 if [ -z "`valid_projectors | grep $projector`" ]; then
@@ -68,12 +68,12 @@ while true; do
         error=`get_error`
     done
 
-    curl -k -X POST -H "x-ha-access: $ha_pwd" \
+    curl -k -X POST -H "Authorization: Bearer $api_token" \
         -H "Content-Type: application/json" \
         -d '{"state": "'"$status"'", "attributes": {"friendly_name": "Projector State", "icon": "mdi:projector"}}' \
         $ha_base_url.projector_state
 
-    curl -k -X POST -H "x-ha-access: $ha_pwd" \
+    curl -k -X POST -H "Authorization: Bearer $api_token" \
         -H "Content-Type: application/json" \
         -d '{"state": "'"$error"'", "attributes": {"friendly_name": "Projector Error", "icon": "mdi:alert-circle"}}' \
         $ha_base_url.projector_error
@@ -85,7 +85,7 @@ while true; do
 
     lamp_timer=`get_lamp_timer`
     if [ "$lamp_timer" != "0" ]; then
-        curl -k -X POST -H "x-ha-access: $ha_pwd" \
+        curl -k -X POST -H "Authorization: Bearer $api_token" \
             -H "Content-Type: application/json" \
             -d '{"state": "'"$lamp_timer"'", "attributes": {"unit_of_measurement": "Hours", "friendly_name": "Projector Lamp Timer", "icon": "mdi:lightbulb-on"}}' \
             $ha_base_url.projector_lamp_timer
