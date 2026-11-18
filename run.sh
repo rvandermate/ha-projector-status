@@ -6,7 +6,7 @@ exit_with_error() {
 }
 
 valid_projectors() {
-    echo `ls projectors/ | sed 's/.sh//' | tr '\n' ' '`
+    echo `ls projectors/ | sed -E 's/\.(sh|py)$//' | sort -u | tr '\n' ' '`
 }
 
 sample_json() {
@@ -48,12 +48,19 @@ get_parameter() {
 
 projector=`get_parameter '.projector'`
 port=`get_parameter '.port'`
-api_token=`get_parameter '.api_token'`
-ha_base_url=`get_parameter '.ha_base_url'`
 
 if [ -z "`valid_projectors | grep $projector`" ]; then
     exit_with_error "Invalid projector selection \"$projector\", must be one of: `valid_projectors`"
 fi
+
+# Projectors with a Python driver run as a long-lived process that keeps the serial port open
+# and pushes to a Home Assistant webhook (see README). They need "webhook_url" in the config.
+if [ -f "projectors/$projector.py" ]; then
+    exec python3 "projectors/$projector.py" "$cfg"
+fi
+
+api_token=`get_parameter '.api_token'`
+ha_base_url=`get_parameter '.ha_base_url'`
 
 source "projectors/$projector.sh" $port
 

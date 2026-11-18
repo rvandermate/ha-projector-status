@@ -1,6 +1,7 @@
 {
     "port": "/dev/ttyUSB0",
     "projector": "sony (or any valid projector from the projectors directory)",
-    "api_token": "api token from home assitant",
-    "ha_base_url": "https://my.homeassistant.url.here/api/states/sensor"
+    "webhook_url": "optoma only: http://<home-assistant-ip>:8123/api/webhook/<webhook_id>",
+    "api_token": "sony only: api token from home assistant",
+    "ha_base_url": "sony only: https://my.homeassistant.url.here/api/states/sensor"
 }
